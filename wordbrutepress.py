@@ -42,7 +42,8 @@
 #
 #
 
-import urllib, httplib, httplib2
+import urllib, httplib2
+import http.client as httplib
 import socket, sys, os, os.path, argparse, random
 from threading import Thread
 from time import sleep
@@ -219,7 +220,7 @@ def connection(url,user,password,UA,timeout,brutemode):
     try:
 
         if brutemode == "std":
-           response, content = http.request(url, 'POST', headers=headers, body=urllib.urlencode(body))
+           response, content = http.request(url, 'POST', headers=headers, body=urllib.parse.urlencode(body))
 
            if str(response.status)[0] == "4" or str(response.status)[0] == "5":
               print('[X] HTTP error, code: '+str(response.status))
@@ -315,7 +316,7 @@ options = commandList.parse_args()
 
 # Check bruteforce mode conflicts
 if options.standard and options.xml:
-   print "\n[X] Select standard [-S] OR xml-rpc [-X] bruteforce mode"
+   print ("\n[X] Select standard [-S] OR xml-rpc [-X] bruteforce mode")
    sys.exit(1)
 
 # Check args
@@ -344,7 +345,7 @@ timeout = options.timeout
 
 # Check if Wordlist file exists and has readable
 if not os.path.isfile(wlfile) and not os.access(wlfile, os.R_OK):
-    print "[X] Wordlist file is missing or is not readable"
+    print ("[X] Wordlist file is missing or is not readable")
     sys.exit(1)
 
 # Gen Random UserAgent
